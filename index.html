@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ScienceClaw Epilepsy Collective</title>
+<title>ScienceClaw Epilepsy Collective — Six-slide version</title>
 <style>
 :root{color-scheme:light;--bg:#e9e7e1;--paper:#fcfcfa;--ink:#111110;--ink2:#4c4b47;--muted:#7a7872;--line:#e2dfd7;--line2:#efede7;
 --blue:#2a78d6;--orange:#eb6834;--green:#1a9e6e;--amber:#d99000;--violet:#6250d6;--slate:#334155;--red:#c8382c;--brain:#cfccc3}
@@ -195,40 +195,7 @@ svg text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
   <aside class="notes">Does the collective add anything? We have not yet run a single-agent baseline, so here is the honest proxy: producer-only versus independently gated. In study-001 agents committed 104 artifacts. A different role recorded 101 gate decisions, and 14 did not pass: a dataset card describing the wrong release, a model whose convergence the producer under-reported. That triggered 6 repair cycles, and the controller refused 3 tasks wired to the wrong patient or to stale inputs. A single agent grading its own work would have shipped all of it.</aside>
 </section>
 
-<!-- ============ S4 study-001 ============ -->
-<section class="slide" data-time="23">
-  <div class="kicker">Study-001 · real data · 6 hours</div>
-  <h1>Real patients, honest answer: the published pipeline was not qualified</h1>
-  <div class="cols" style="grid-template-columns:1fr 1fr 1fr;gap:30px;margin-top:10px">
-    <div class="card">
-      <h2><span class="tag ok">passed</span> Literature dossier</h2>
-      <div class="num">32</div><div class="numlab">source-checked evidence claims (RCTs, cohorts, meta-analyses)</div>
-      <svg id="s4lit" viewBox="0 0 470 330" width="470" height="330" style="margin-top:14px" role="img" aria-label="Reported seizure freedom ranges by treatment"></svg>
-      <p class="cite">Seizure freedom as reported; endpoints and follow-up differ, so not a ranking (A0063, A0031).</p>
-    </div>
-    <div class="card">
-      <h2><span class="tag ok">passed</span> Case curation</h2>
-      <div class="num">10</div><div class="numlab">real intracranial-EEG patients (SEEG and ECoG) curated from OpenNeuro ds004100 (HUP), chosen without looking at outcomes</div>
-      <ul style="margin-top:20px">
-        <li style="font-size:23px">56 eligible patients, split 34 dev / 22 test by seed before any modelling</li>
-        <li style="font-size:23px">R5 re-checked all <strong>254 files</strong>; found padded EDF tails in 21 of 41 seizure runs</li>
-        <li style="font-size:23px">Outcome labels sealed in the vault (never opened)</li>
-      </ul>
-    </div>
-    <div class="card" style="border-color:#eba79f;background:#fffaf9">
-      <h2><span class="tag no">not qualified</span> Virtual patient</h2>
-      <div class="num">2 / 2</div><div class="numlab">benchmarks failed for the Wang 2025 inversion pipeline</div>
-      <ul style="margin-top:20px">
-        <li style="font-size:23px">No convergence: all 162 x0 R-hat &gt; 1.05 (max 4.24)</li>
-        <li style="font-size:23px">Planted focus top-ranked in only 29% of draws</li>
-        <li style="font-size:23px">4 package defects found (e.g. likelihood skips channels, filters hard-code 250 Hz)</li>
-        <li style="font-size:23px"><strong>So the system stopped</strong>: no simulations, no predictions, vault left sealed</li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer"><span>studies/study-001/report.md · reports/study-001-summary.html · R5 verdict A0098</span><span class="pg"></span></div>
-  <aside class="notes">Study-001 ran on real data in six hours. It produced a literature dossier of 32 source-checked claims: resection gives the best chance of seizure freedom when there is a resectable focus, and stimulation reduces seizures but rarely stops them. It curated 10 real intracranial-EEG patients from OpenNeuro. And when R3 fitted the published virtual-brain pipeline, R5 showed it was not qualified: no convergence, the planted focus not recovered, four code defects. So the system stopped: no simulations, no predictions, and the outcome vault stayed sealed.</aside>
-</section>
+
 
 <!-- ============ S5 study-002 3D ============ -->
 <section class="slide" data-time="28">
@@ -378,15 +345,6 @@ setInterval(()=>{if(t0===null)return;const s=Math.round((Date.now()-t0)/1000);$(
   el('text',{x:x0+W,y:200,'font-size':19,fill:'#b8321b','font-weight':650,'text-anchor':'end'},s,`${a.gates_failed} failed + ${a.gates_indeterminate} indeterminate → ${a.repairs} repair cycles`);
   el('text',{x:x0,y:250,'font-size':19,fill:'#4c4b47'},s,`+ ${a.refused} tasks refused by the controller before they ran · ${a.needs} unmet needs posted`);
   el('text',{x:x0,y:280,'font-size':17,fill:'#7a7872'},s,`Study-001 ledger: ${a.events} events, ${a.first.slice(11,16)}–${a.last.slice(11,16)} UTC, 2026-11-01`);
-})();
-
-/* ---------- S4 literature ranges ---------- */
-(function(){const s=$('#s4lit');const rows=[['Temporal resection (RCTs)',58,73,'#c0661c'],['Temporal resection, long-term',66,72.5,'#c0661c'],['LITT, mesial temporal',53.4,58,'#e3a067'],['RNS (≥12-mo freedom)',18,22,'#2a78d6'],['ANT-DBS (≥6-mo)',16,16,'#2a78d6'],['VNS',8,8,'#2a78d6']];
-  const x0=10,W=440,X=v=>x0+v/100*W;
-  [0,25,50,75,100].forEach(v=>{el('line',{x1:X(v),x2:X(v),y1:6,y2:300,stroke:'#efede7'},s);el('text',{x:X(v),y:322,'font-size':15,fill:'#7a7872','text-anchor':v===0?'start':v===100?'end':'middle'},s,v+'%');});
-  rows.forEach(([n,lo,hi,c],i)=>{const y=14+i*48;el('text',{x:x0,y:y+12,'font-size':16,fill:'#4c4b47'},s,n);
-    el('rect',{x:X(lo)-5,y:y+20,width:Math.max(X(hi)-X(lo),0)+10,height:14,rx:7,fill:c},s);
-    el('text',{x:X(hi)+12,y:y+32,'font-size':15,fill:'#111','font-weight':600},s,lo===hi?`~${lo}%`:`${lo}–${hi}%`);});
 })();
 
 /* ---------- colour map shared by heatmaps and 3D ---------- */
